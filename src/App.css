@@ -34,10 +34,6 @@ html {
   border-bottom-right-radius: 20px;
 }
 
-.parentMessage {
-  padding: 0.5rem;
-}
-
 .containerMessages {
   display: flex;
   padding-top: 0.5rem;
@@ -47,7 +43,6 @@ html {
 
 .userName {
   padding-left: 1rem;
-  padding-bottom: 1rem;
   font-family: 'Courier New', Courier, monospace;
 }
 
@@ -59,30 +54,24 @@ html {
 }
 
 .message {
-  padding-left: 1rem;
+  padding: 1rem;
 }
 
 .action {
   display: flex;
-  max-width: 500px;
-  padding-top: 1rem;
-  display: flex;
-  outline: none;
-  padding-right: 1rem;
-  padding-left: 1rem;
+  justify-content: center;
+  width: 100%;
+  padding-bottom: 0.5rem;
 }
 
 .action button {
-  justify-content: center;
-  padding-bottom: 0.5rem;
-  padding-top: 0.5rem;
-  border-radius: 5px;
-  padding-right: 30px;
-  padding-left: 30px;
+  max-width: 500px;
+  width: 100%;
   color: black;
   border: none;
-  outline: none;
   background-color: white;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
 }
 
 .action button:hover {
@@ -101,6 +90,11 @@ html {
   padding-right: 1rem
 }
 
+.parentMessage {
+  max-width: 500px;
+  width: 100%;
+  padding: 0.5rem;
+}
 
 .textarea {
   padding-top: 1rem;
