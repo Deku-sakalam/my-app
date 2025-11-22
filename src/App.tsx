@@ -15,7 +15,18 @@ export function App() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [com, setCom] = useState("");
   const [textbox, setTextbox] = useState<string | undefined>();
-  const [id, setID] = useState(crypto.randomUUID());
+  const [deviceID, setDeviceId] = useState<string>();
+
+  useEffect(() => {
+    const existingDeviceID = localStorage.getItem("DeviceId");
+    if (!existingDeviceID) {
+      const randomId = crypto.randomUUID();
+      localStorage.setItem("DeviceId", randomId);
+      setDeviceId(randomId);
+    } else {
+      setDeviceId(existingDeviceID);
+    }
+  }, []);
 
   useEffect(() => {
     setPosts(GetPosts());
@@ -77,19 +88,23 @@ export function App() {
                   <div className="action">
                     <button
                       onClick={() => {
-                        const newPosts = LikePost(post.id);
-                        setPosts(newPosts);
+                        if (deviceID) {
+                          const newPosts = LikePost(post.id, deviceID);
+                          if (newPosts) setPosts(newPosts);
+                        }
                       }}
                     >
-                      {post.like.toString()}👍like
+                      {post.like.length}👍like
                     </button>
                     <button
                       onClick={() => {
-                        const newPosts = DisLikePost(post.id);
-                        setPosts(newPosts);
+                        if (deviceID) {
+                          const newPosts = DisLikePost(post.id, deviceID);
+                          if (newPosts) setPosts(newPosts);
+                        }
                       }}
                     >
-                      {post.disLike.toString()}👎dislike
+                      {post.disLike.length}👎dislike
                     </button>
                     <button
                       onClick={() => {
