@@ -2,8 +2,8 @@ const POSTKEY = "content";
 export type Post = {
   id: string;
   content: string;
-  like: number;
-  disLike: number;
+  like: string[];
+  disLike: string[];
   date: Date;
   comments: {
     id: string;
@@ -19,8 +19,8 @@ function createPost(content: string) {
     id: crypto.randomUUID(),
     content: content,
     date: new Date(),
-    like: 0,
-    disLike: 0,
+    like: [],
+    disLike: [],
     comments: [],
   });
   localStorage.setItem(POSTKEY, JSON.stringify(jLStorage));
@@ -33,20 +33,34 @@ export function GetPosts() {
   return jLStorage;
 }
 
-export function LikePost(id: string) {
+export function LikePost(id: string, deviceid: string) {
   const lStorage = localStorage.getItem(POSTKEY);
-  const posts = lStorage ? JSON.parse(lStorage) : [];
+  const posts = (lStorage ? JSON.parse(lStorage) : []) as Post[];
   const index = posts.findIndex((post: Post) => post.id === id);
-  posts[index].like++;
+  const likes = posts[index].like;
+  const lIndex = likes.indexOf(deviceid);
+  if (lIndex !== -1) {
+    likes.splice(lIndex, 1);
+  } else {
+    likes.push(deviceid);
+  }
   localStorage.setItem(POSTKEY, JSON.stringify(posts));
   return posts;
 }
 
-export function DisLikePost(id: string) {
+export function DisLikePost(id: string, deviceid: string) {
   const lStorage = localStorage.getItem(POSTKEY);
-  const posts = lStorage ? JSON.parse(lStorage) : [];
+  const posts = (lStorage ? JSON.parse(lStorage) : []) as Post[];
+
   const index = posts.findIndex((post: Post) => post.id === id);
-  posts[index].disLike++;
+  const dislikes = posts[index].disLike;
+  const dIndex = dislikes.indexOf(deviceid);
+
+  if (dIndex !== -1) {
+    dislikes.splice(dIndex, 1);
+  } else {
+    dislikes.push(deviceid);
+  }
   localStorage.setItem(POSTKEY, JSON.stringify(posts));
   return posts;
 }
